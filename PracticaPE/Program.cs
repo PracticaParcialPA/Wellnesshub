@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+
 using PracticaPE.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,13 +13,18 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString, sql =>
         sql.EnableRetryOnFailure(maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(10), errorNumbersToAdd: null)));
 
+
+// 🔹 Registrar servicios de controladores (API)
 builder.Services.AddControllers();
 
+
 // 3) Swagger / OpenAPI
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
 
 // 4) Swagger SIEMPRE (Prod también) y raíz redirige a /swagger
 app.UseSwagger();
@@ -45,6 +51,7 @@ using (var scope = app.Services.CreateScope())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 
+// 🔹 Mapear controladores
 app.MapControllers();
 
 app.Run();

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PracticaPE.Data;
 
@@ -11,9 +12,11 @@ using PracticaPE.Data;
 namespace PracticaPE.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250929025251_Migrations")]
+    partial class Migrations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,9 +25,7 @@ namespace PracticaPE.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-
             modelBuilder.Entity("PracticaPE.Models.Workout", b =>
-            modelBuilder.Entity("PracticaPE.Models.Meal", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -56,34 +57,6 @@ namespace PracticaPE.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Workouts");
-                    b.Property<int>("Calories")
-                        .HasColumnType("int");
-
-                    b.Property<float>("Carbs")
-                        .HasColumnType("real");
-
-                    b.Property<DateTime>("EntryDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<float>("Fat")
-                        .HasColumnType("real");
-
-                    b.Property<string>("FoodName")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<float>("Protein")
-                        .HasColumnType("real");
-
-                    b.Property<string>("User")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Meals");
                 });
 #pragma warning restore 612, 618
         }
