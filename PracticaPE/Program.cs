@@ -1,23 +1,36 @@
+using Microsoft.EntityFrameworkCore;
+using PracticaPE.Data; // Asegúrate que el namespace coincida con tu AppDbContext
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// 🔹 Configurar la cadena de conexión de Azure SQL
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
+// 🔹 Registrar DbContext con SQL Server
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(connectionString));
+
+// 🔹 Registrar servicios de controladores (API)
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+
+// 🔹 Configurar Swagger/OpenAPI
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// 🔹 Middleware
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+// 🔹 Mapear controladores
 app.MapControllers();
 
 app.Run();
